@@ -9748,7 +9748,7 @@ vars00<-c("Neutrophil-to-lymphocyte ratio\n(predicted values, 95% CI)",
 vars0x<-c("N-L ratio (mg/dL)","Platelets (10⁹/L)")
 vars01<-c("nlr","plat")
 vars02<-c("nlr_ok","plat_ok")
-vars03<-c("nlr_median00","plat_median00")
+vars03<-c("nlr_hi_00","plat_median00")
 
 vars04<-c("60","61","62","63","64",
           "65","66","67","68","69","70","71","72","73","74",
@@ -10902,17 +10902,17 @@ vars03<-c("Baseline obesity, all","Baseline abd. ob., all","Baseline adip., all"
           "Baseline hyperten., all","Baseline hyperten., all","Baseline hyperchol., all",
           "Baseline low HDL-C, all","Baseline ≥130 mg/dL, all","Baseline ≥3, all",
           "Baseline ≥150 mg/dL, all","Baseline ≥126 mg/dL, all","Baseline ≥6.5%, all",
-          "Baseline CKD, all","Baseline >median, all","Baseline >median, all")
+          "Baseline CKD, all","Baseline ≥2.15, all","Baseline >median, all")
 vars04<-c("Baseline obesity, women","Baseline abd. ob., women","Baseline adip., women",
           "Baseline hyperten., women","Baseline hyperten., women","Baseline hyperchol., women",
           "Baseline low HDL-C, women","Baseline ≥130 mg/dL, women","Baseline ≥3, women",
           "Baseline ≥150 mg/dL, women","Baseline ≥126 mg/dL, women","Baseline ≥6.5%, women",
-          "Baseline CKD, women","Baseline >median, women","Baseline >median, women")
+          "Baseline CKD, women","Baseline ≥2.15, women","Baseline >median, women")
 vars05<-c("Baseline obesity, men","Baseline abd. ob., men","Baseline adip., men",
           "Baseline hyperten., men","Baseline hyperten., men","Baseline hyperchol., men",
           "Baseline low HDL-C, men","Baseline ≥130 mg/dL, men","Baseline ≥3, men",
           "Baseline ≥150 mg/dL, men","Baseline ≥126 mg/dL, men","Baseline ≥6.5%, men",
-          "Baseline CKD, men","Baseline >median, men","Baseline >median, men")
+          "Baseline CKD, men","Baseline ≥2.15, men","Baseline >median, men")
 
 for(i in 1:length(vars01))
 {
