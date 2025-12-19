@@ -1180,13 +1180,16 @@ dat$egfr_basal<-dat$egfr00
 dat$nlr_basal<-dat$nlr00
 dat$plat_basal<-dat$plat00
 dat$ldl_hdl_hi3_00<-with(dat,ifelse(ldlc_hdlc00>=3,1,0))
-dat$nlr_median00<-with(dat,ifelse(nlr00>=median(dat$nlr00,na.rm=TRUE),1,0)) #1.763292 uds
-dat$plat_median00<-with(dat,ifelse(plat00>=median(dat$plat00,na.rm=TRUE),1,0)) #229
+dat$plat_median00<-with(dat,ifelse(sexo==1 & plat00>=median(dat[dat$sexo==1,c("plat00")],na.rm=TRUE),1,
+                                   ifelse(sexo==1 & plat00<median(dat[dat$sexo==1,c("plat00")],na.rm=TRUE),0,
+                                          ifelse(sexo==0 & plat00>=median(dat[dat$sexo==0,c("plat00")],na.rm=TRUE),1,
+                                                 ifelse(sexo==0 & plat00<median(dat[dat$sexo==0,c("plat00")],na.rm=TRUE),0,NA)))))
+# plat_median: >=242 women, >=212 men
 
 bmi_vars<-c("id","sexo","nodo","escolar00","grup_int","grup_int2","idcluster2","prop_score01","prop_score02","excl",
             "mvltpalong","mvltpa_cat2","mvltpa_cat4",
             "diabetes00","hipercol00","hipertg00","hta00","obesity00","obesity200","adobesity00","c_adip00","bmi_basal2",
-            "ldl_hi130_00","ldl_hdl_hi3_00","hdl_lo_00","ckd_00","nlr_median00","plat_median00",
+            "ldl_hi130_00","ldl_hdl_hi3_00","hdl_lo_00","ckd_00","nlr_hi_00","plat_median00",
             "f_chol00","f_tg00","f_gluco00","f_hta00","tobacco00","tobacco200","bmi_basal2","dmed00","dmedlong","kcal00","covar",
             "bmi_ok","wc_ok","sbp_ok","dbp_ok","lipids_ok","gluco_ok","hb1ac_ok","egfr_ok","nlr_ok","plat_ok",
             "bmi_basal","wc_basal","whtr_basal","sbp_basal","dbp_basal","tc_basal","hdlc_basal","ldlc_basal","ldlc_hdlc_basal","tg_basal",
@@ -1342,7 +1345,7 @@ dat_long<-as.data.frame(cbind(bmi_long,wc_long[,3],whtr_long[,3],sbp_long[,3],db
 colnames(dat_long)<-c("id","sexo","nodo","escolar00","grup_int","grup_int2","idcluster2","prop_score01","prop_score02","excl",
                       "mvltpalong","mvltpa_cat2","mvltpa_cat4",
                       "diabetes00","hipercol00","hipertg00","hta00","obesity00","obesity200","adobesity00","c_adip00","bmi00",
-                      "ldl_hi130_00","ldl_hdl_hi3_00","hdl_lo_00","ckd_00","nlr_median00","plat_median00",
+                      "ldl_hi130_00","ldl_hdl_hi3_00","hdl_lo_00","ckd_00","nlr_hi_00","plat_median00",
                       "f_chol00","f_tg00","f_gluco00","f_hta00","tobacco00","tobacco200","bmi_basal2","dmed00","dmedlong","kcal00","covar",
                       "bmi_ok","wc_ok","sbp_ok","dbp_ok","lipids_ok","gluco_ok","hb1ac_ok","egfr_ok","nlr_ok","plat_ok",
                       "bmi_basal","wc_basal","whtr_basal","sbp_basal","dbp_basal","tc_basal","hdlc_basal","ldlc_basal","ldlc_hdlc_basal","tg_basal",
