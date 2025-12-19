@@ -322,11 +322,11 @@ xxx<-dat[dat$bmi_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -334,13 +334,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/bmi/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -371,6 +371,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/bmi/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$bmi_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_bmi, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/bmi/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # wc
 
@@ -380,11 +397,11 @@ xxx<-dat[dat$wc_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -392,13 +409,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/wc/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -429,6 +446,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/wc/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$wc_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_wc, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/wc/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # whtr
 
@@ -438,11 +472,11 @@ xxx<-dat[dat$wc_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -450,13 +484,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/whtr/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -487,6 +521,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/whtr/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$wc_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_wc, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/whtr/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # sbp
 
@@ -496,11 +547,11 @@ xxx<-dat[dat$sbp_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -508,13 +559,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/sbp/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -545,6 +596,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/sbp/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$sbp_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_sbp, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/sbp/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # dbp
 
@@ -554,11 +622,11 @@ xxx<-dat[dat$dbp_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -566,13 +634,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/dbp/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -603,6 +671,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/dbp/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$dbp_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_dbp, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/dbp/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # tc
 
@@ -612,11 +697,11 @@ xxx<-dat[dat$lipids_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -624,13 +709,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/tc/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -661,6 +746,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/tc/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$lipids_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_lipids, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/tc/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # hdlc
 
@@ -670,11 +772,11 @@ xxx<-dat[dat$lipids_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -682,13 +784,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/hdlc/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -719,6 +821,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/hdlc/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$lipids_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_lipids, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/hdlc/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # ldlc
 
@@ -728,11 +847,11 @@ xxx<-dat[dat$lipids_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -740,13 +859,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/ldlc/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -777,6 +896,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/ldlc/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$lipids_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_lipids, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/ldlc/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # ldlc_hdlc
 
@@ -786,11 +922,11 @@ xxx<-dat[dat$lipids_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -798,13 +934,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/ldlc_hdlc/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -835,6 +971,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/ldlc_hdlc/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$lipids_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_lipids, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/ldlc_hdlc/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # tg
 
@@ -844,11 +997,11 @@ xxx<-dat[dat$lipids_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -856,13 +1009,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/tg/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -893,6 +1046,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/tg/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$lipids_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_lipids, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/tg/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # gluco
 
@@ -902,11 +1072,11 @@ xxx<-dat[dat$gluco_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -914,13 +1084,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/gluco/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -951,6 +1121,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/gluco/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$gluco_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_gluco, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/gluco/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # hb1ac
 
@@ -960,11 +1147,11 @@ xxx<-dat[dat$hb1ac_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -972,13 +1159,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/hb1ac/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -1009,6 +1196,22 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/hb1ac/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$hb1ac_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_hb1ac, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/hb1ac/Descriptive/person_years.csv",sep=";",col.names=NA)
 
 # egfr
 
@@ -1018,11 +1221,11 @@ xxx<-dat[dat$egfr_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -1030,13 +1233,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/egfr/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -1067,6 +1270,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/egfr/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$egfr_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_egfr, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/egfr/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # nlr
 
@@ -1076,11 +1296,11 @@ xxx<-dat[dat$nlr_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -1088,13 +1308,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/nlr/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -1125,6 +1345,23 @@ age_counts <- dat_long %>%
   )
 write.table(age_counts,file="./Outputs/nlr/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
 
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$nlr_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_nlr, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/nlr/Descriptive/person_years.csv",sep=";",col.names=NA)
+
 
 # plat
 
@@ -1134,11 +1371,11 @@ xxx<-dat[dat$plat_ok==1,
          c("id","age00","sexo","escolar00",
            "diabetes00","hipercol00","hipertg00",
            "hta00","tobacco00","obesity00","adobesity00","dmed00","kcal00",
-           "mvltpa_cat4")]
+           "mvltpa_cat2")]
 xxx$sel<-1
 
 mvltpa<-NULL
-mvltpa<-createTable(compareGroups(mvltpa_cat4~.
+mvltpa<-createTable(compareGroups(mvltpa_cat2~.
                                   -id-sel,
                                   xxx, 
                                   method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
@@ -1146,13 +1383,13 @@ mvltpa<-createTable(compareGroups(mvltpa_cat4~.
                     show.n=TRUE, hide.no=0)
 tab<-NULL
 tab<-createTable(compareGroups(sel~.
-                               -id-mvltpa_cat4,
+                               -id-mvltpa_cat2,
                                xxx, 
                                method=c("sexo"=3,"escolar00"=3,"diabetes00"=3,"hipercol00"=3,
                                         "hipertg00"=3,"hta00"=3,"tobacco00"=3,"obesity00"=3,"adobesity00"=3)),
                  show.n=TRUE, hide.no=0)
 tab<-cbind(tab$descr[,1],mvltpa$descr)
-colnames(tab)<-c("All","MVLTPA 0","MVLTPA <100","MVLTPA ≥100-200","MVLTPA ≥200","P-value","N")
+colnames(tab)<-c("All","MVLTPA <100","MVLTPA >100","P-value","N")
 write.table(tab,file="./Outputs/plat/Descriptive/descriptive.csv",sep=";",col.names=NA)
 
 load("./Data/LTPA_PREDIMED2.RData")
@@ -1182,6 +1419,23 @@ age_counts <- dat_long %>%
     .groups = "drop"
   )
 write.table(age_counts,file="./Outputs/plat/Descriptive/non_NA_values_age.csv",sep=";",col.names=NA)
+
+load("./Data/LTPA_PREDIMED2.RData")
+dat<-dat[dat$plat_ok==1,]
+pyears <- dat %>%
+  dplyr::mutate(
+    fu_years = round(as.numeric(difftime(f_ultcontact_plat, seg00, units = "days")) / 365.25,1),
+    cohorte = dplyr::case_when(nodo==1~"Malaga",nodo==2~"Sevilla",nodo==4~"Mallorca",
+                               nodo==5~"Clinic",nodo==6~"IMIM",nodo==7~"Reus",nodo==10~"Navarra",
+                               nodo==11~"Vitoria",nodo==13~"Canarias",nodo==14~"Bellvitge",
+                               TRUE ~ paste0("Nodo_", nodo))) %>%
+  dplyr::group_by(cohorte) %>%
+  dplyr::summarise(
+    person_years = sum(fu_years, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  dplyr::arrange(dplyr::desc(person_years))
+write.table(pyears,file="./Outputs/plat/Descriptive/person_years.csv",sep=";",col.names=NA)
 
 
 ###########################
