@@ -11058,8 +11058,6 @@ for(i in 1:length(vars01))
   labelok<-vars08[i]
   datx<-dat[dat[,vars10[i]]==1,]
   sample_orig<-dim(datx)[1]
-  outliers<-length(which(datx$mvltpalong>600))
-  datx<-datx[datx$mvltpalong<=600,]
   excl_basal<-length(which(datx[,vars03[i]]==1))
   datx<-datx[datx[,vars03[i]]==0,]
   samplesize<-dim(datx)[1]
@@ -11415,11 +11413,13 @@ for(i in 1:length(vars01))
   figure<-ggplot(data=plot.data, aes_string(x=plot.data$x, y=plot.data$y)) + 
     geom_ribbon(aes_string(ymin=plot.data$lci, ymax=plot.data$uci), alpha=0.25, fill='#0072B2') +
     geom_line(aes_string(x=plot.data$x, y=plot.data$y), color='#0072B2') +
-    geom_hline(yintercept=1, linetype=2) +
+    geom_hline(yintercept=1, linetype=2, color='grey50') +
     theme_bw() +
     scale_x_continuous(expand=c(0,0)) +
+    scale_y_continuous(expand=c(0,0)) +
+    coord_cartesian(xlim = c(0, 510), ylim = c(NA, min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE), 3))) +
     labs(x=c("Cumulative mean of moderate-vigorous LTPA\n(METs-min/day)"),y=labely) +
-    annotate("text", x=max(plot.data$x,na.rm=TRUE)*0.98, y=max(plot.data$uci,na.rm=TRUE), label=leg, vjust=1, hjust=1, size=4.5) +
+    annotate("text", x=510*0.98, y=min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE)*0.98, 3*0.98), label=leg, vjust=1, hjust=1, size=4.5) +
     theme(axis.title.x = element_text(vjust=0.5, size=16, face="bold"), 
           axis.title.y = element_text(vjust=0.5, size=16, face="bold"),
           axis.text.x = element_text(size=16, colour = 'black'),
@@ -11592,10 +11592,10 @@ for(i in 1:length(vars01))
   plot.data<-rbind(plot.data_m,plot.data_f)
   namefile<-paste("./Outputs2/",vars00[i],"/Survival/splinesex_",vars01[i],".jpg",sep="")
   labely<-paste(vars09[i],"\n(multivariate adjusted hazard ratio)",sep="")
-  leg<-paste("Female individuals:",
+  leg<-paste("Female individuals (red):",
              "\nAll MVLTPA values, HR for +25 METs-min/d: ",coef_f,
              "\nMVLTPA values <150 METs-min/d, HR for +25 METs-min/d: ",coef_f2,
-             "\nMale individuals:",
+             "\nMale individuals (blue):",
              "\nAll MVLTPA values, HR for +25 METs-min/d: ",coef_m,
              "\nMVLTPA values <150 METs-min/d, HR for +25 METs-min/d: ",coef_m2)
   
@@ -11604,11 +11604,13 @@ for(i in 1:length(vars01))
     geom_line(aes_string(x=plot.data_m$x, y=plot.data_m$y), color='#1065B1') +
     geom_ribbon(aes(x=plot.data_f$x, y=plot.data_f$y, ymin=plot.data_f$lci, ymax=plot.data_f$uci), alpha=0.25, fill='#B31529') +
     geom_line(aes_string(x=plot.data_f$x, y=plot.data_f$y), color='#B31529') +
-    geom_hline(yintercept=1, linetype=2) +
+    geom_hline(yintercept=1, linetype=2, color='grey50') +
     theme_bw() +
     scale_x_continuous(expand=c(0,0)) +
+    scale_y_continuous(expand=c(0,0)) +
+    coord_cartesian(xlim = c(0, 510), ylim = c(NA, min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE), 3))) +
     labs(x=c("Cumulative mean of moderate-vigorous LTPA\n(METs-min/day)"),y=labely) +
-    annotate("text", x=max(plot.data_m$x,na.rm=TRUE)*0.98, y=max(plot.data$uci,na.rm=TRUE), label=leg, vjust=1, hjust=1, size=4) +
+    annotate("text", x=510*0.98, y=min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE)*0.98, 3*0.98), label=leg, vjust=1, hjust=1, size=4) +
     theme(axis.title.x = element_text(vjust=0.5, size=16, face="bold"), 
           axis.title.y = element_text(vjust=0.5, size=16, face="bold"),
           axis.text.x = element_text(size=16, colour = 'black'),
@@ -11625,12 +11627,12 @@ for(i in 1:length(vars01))
   figure
   dev.off()
   
-  tab_ok<-rbind(tab_ok,cbind(median_time,sample_orig,outliers,excl_basal,samplesize,
+  tab_ok<-rbind(tab_ok,cbind(median_time,sample_orig,excl_basal,samplesize,
                              nval_long_cont,coef_long_cont,pval_long_cont,pval_long_cont_ex,p_lrtest,
                              nval_long_q1,nval_long_q2,coef_long_qi,pval_long_qi,
                              min_val,min_coef,labelok,
                              p_int_sexo))
-  tab<-rbind(tab,cbind(median_time,sample_orig,outliers,excl_basal,samplesize,
+  tab<-rbind(tab,cbind(median_time,sample_orig,excl_basal,samplesize,
                        nval_long_cont,hr_long_cont,ic95a_long_cont,ic95b_long_cont,pval_long_cont,
                        pval_long_cont_ex,p_lrtest,
                        nval_long_q1,nval_long_q2,hr_long_qi,ic95a_long_qi,ic95b_long_qi,pval_long_qi,
@@ -11696,8 +11698,6 @@ for(i in 1:length(vars01))
   labelok<-vars08[i]
   datx<-dat[dat[,vars10[i]]==1,]
   sample_orig<-dim(datx)[1]
-  outliers<-length(which(datx$mvltpalong>600))
-  datx<-datx[datx$mvltpalong<=600,]
   excl_basal<-length(which(datx[,vars03[i]]==1))
   datx<-datx[datx[,vars03[i]]==0,]
   samplesize<-dim(datx)[1]
@@ -12051,11 +12051,13 @@ for(i in 1:length(vars01))
   figure<-ggplot(data=plot.data, aes_string(x=plot.data$x, y=plot.data$y)) + 
     geom_ribbon(aes_string(ymin=plot.data$lci, ymax=plot.data$uci), alpha=0.25, fill='#0072B2') +
     geom_line(aes_string(x=plot.data$x, y=plot.data$y), color='#0072B2') +
-    geom_hline(yintercept=1, linetype=2) +
+    geom_hline(yintercept=1, linetype=2, color='grey50') +
     theme_bw() +
     scale_x_continuous(expand=c(0,0)) +
+    scale_y_continuous(expand=c(0,0)) +
+    coord_cartesian(xlim = c(0, 510), ylim = c(NA, min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE), 3))) +
     labs(x=c("Cumulative mean of moderate-vigorous LTPA\n(METs-min/day)"),y=labely) +
-    annotate("text", x=max(plot.data$x,na.rm=TRUE)*0.98, y=max(plot.data$uci,na.rm=TRUE), label=leg, vjust=1, hjust=1, size=4.5) +
+    annotate("text", x=510*0.98, y=min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE)*0.98, 3*0.98), label=leg, vjust=1, hjust=1, size=4.5) +
     theme(axis.title.x = element_text(vjust=0.5, size=16, face="bold"), 
           axis.title.y = element_text(vjust=0.5, size=16, face="bold"),
           axis.text.x = element_text(size=16, colour = 'black'),
@@ -12228,10 +12230,10 @@ for(i in 1:length(vars01))
   plot.data<-rbind(plot.data_m,plot.data_f)
   namefile<-paste("./Outputs2/",vars00[i],"/Survival/splinesex_",vars01[i],".jpg",sep="")
   labely<-paste(vars09[i],"\n(multivariate adjusted hazard ratio)",sep="")
-  leg<-paste("Female individuals:",
+  leg<-paste("Female individuals (red):",
              "\nAll MVLTPA values, HR for +25 METs-min/d: ",coef_f,
              "\nMVLTPA values <150 METs-min/d, HR for +25 METs-min/d: ",coef_f2,
-             "\nMale individuals:",
+             "\nMale individuals (blue):",
              "\nAll MVLTPA values, HR for +25 METs-min/d: ",coef_m,
              "\nMVLTPA values <150 METs-min/d, HR for +25 METs-min/d: ",coef_m2)
   
@@ -12240,11 +12242,13 @@ for(i in 1:length(vars01))
     geom_line(aes_string(x=plot.data_m$x, y=plot.data_m$y), color='#1065B1') +
     geom_ribbon(aes(x=plot.data_f$x, y=plot.data_f$y, ymin=plot.data_f$lci, ymax=plot.data_f$uci), alpha=0.25, fill='#B31529') +
     geom_line(aes_string(x=plot.data_f$x, y=plot.data_f$y), color='#B31529') +
-    geom_hline(yintercept=1, linetype=2) +
+    geom_hline(yintercept=1, linetype=2, color='grey50') +
     theme_bw() +
     scale_x_continuous(expand=c(0,0)) +
+    scale_y_continuous(expand=c(0,0)) +
+    coord_cartesian(xlim = c(0, 510), ylim = c(NA, min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE), 3))) +
     labs(x=c("Cumulative mean of moderate-vigorous LTPA\n(METs-min/day)"),y=labely) +
-    annotate("text", x=max(plot.data_m$x,na.rm=TRUE)*0.98, y=max(plot.data$uci,na.rm=TRUE), label=leg, vjust=1, hjust=1, size=4) +
+    annotate("text", x=510*0.98, y=min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE)*0.98, 3*0.98), label=leg, vjust=1, hjust=1, size=4) +
     theme(axis.title.x = element_text(vjust=0.5, size=16, face="bold"), 
           axis.title.y = element_text(vjust=0.5, size=16, face="bold"),
           axis.text.x = element_text(size=16, colour = 'black'),
@@ -12261,12 +12265,12 @@ for(i in 1:length(vars01))
   figure
   dev.off()
   
-  tab_ok<-rbind(tab_ok,cbind(median_time,sample_orig,outliers,excl_basal,samplesize,
+  tab_ok<-rbind(tab_ok,cbind(median_time,sample_orig,excl_basal,samplesize,
                              nval_long_cont,coef_long_cont,pval_long_cont,pval_long_cont_ex,p_lrtest,
                              nval_long_q1,nval_long_q2,coef_long_qi,pval_long_qi,
                              min_val,min_coef,labelok,
                              p_int_sexo))
-  tab<-rbind(tab,cbind(median_time,sample_orig,outliers,excl_basal,samplesize,
+  tab<-rbind(tab,cbind(median_time,sample_orig,excl_basal,samplesize,
                        nval_long_cont,hr_long_cont,ic95a_long_cont,ic95b_long_cont,pval_long_cont,
                        pval_long_cont_ex,p_lrtest,
                        nval_long_q1,nval_long_q2,hr_long_qi,ic95a_long_qi,ic95b_long_qi,pval_long_qi,
@@ -12339,8 +12343,6 @@ for(i in 1:length(vars01))
   labelok<-vars08[i]
   datx<-dat[dat[,vars10[i]]==1,]
   sample_orig<-dim(datx)[1]
-  outliers<-length(which(datx$mvltpalong>600))
-  datx<-datx[datx$mvltpalong<=600,]
   excl_basal<-length(which(datx[,vars03[i]]==1))
   datx<-datx[datx[,vars03[i]]==0,]
   samplesize<-dim(datx)[1]
@@ -12693,11 +12695,13 @@ for(i in 1:length(vars01))
   figure<-ggplot(data=plot.data, aes_string(x=plot.data$x, y=plot.data$y)) + 
     geom_ribbon(aes_string(ymin=plot.data$lci, ymax=plot.data$uci), alpha=0.25, fill='#0072B2') +
     geom_line(aes_string(x=plot.data$x, y=plot.data$y), color='#0072B2') +
-    geom_hline(yintercept=1, linetype=2) +
+    geom_hline(yintercept=1, linetype=2, color='grey50') +
     theme_bw() +
     scale_x_continuous(expand=c(0,0)) +
+    scale_y_continuous(expand=c(0,0)) +
+    coord_cartesian(xlim = c(0, 510), ylim = c(NA, min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE), 3))) +
     labs(x=c("Cumulative mean of moderate-vigorous LTPA\n(METs-min/day)"),y=labely) +
-    annotate("text", x=max(plot.data$x,na.rm=TRUE)*0.98, y=max(plot.data$uci,na.rm=TRUE), label=leg, vjust=1, hjust=1, size=4.5) +
+    annotate("text", x=510*0.98, y=min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE)*0.98, 3*0.98), label=leg, vjust=1, hjust=1, size=4.5) +
     theme(axis.title.x = element_text(vjust=0.5, size=16, face="bold"), 
           axis.title.y = element_text(vjust=0.5, size=16, face="bold"),
           axis.text.x = element_text(size=16, colour = 'black'),
@@ -12870,10 +12874,10 @@ for(i in 1:length(vars01))
   plot.data<-rbind(plot.data_m,plot.data_f)
   namefile<-paste("./Outputs2/",vars00[i],"/Survival/splinesex_",vars01[i],".jpg",sep="")
   labely<-paste(vars09[i],"\n(multivariate adjusted hazard ratio)",sep="")
-  leg<-paste("Female individuals:",
+  leg<-paste("Female individuals (red):",
              "\nAll MVLTPA values, HR for +25 METs-min/d: ",coef_f,
              "\nMVLTPA values <150 METs-min/d, HR for +25 METs-min/d: ",coef_f2,
-             "\nMale individuals:",
+             "\nMale individuals (blue):",
              "\nAll MVLTPA values, HR for +25 METs-min/d: ",coef_m,
              "\nMVLTPA values <150 METs-min/d, HR for +25 METs-min/d: ",coef_m2)
   
@@ -12882,11 +12886,13 @@ for(i in 1:length(vars01))
     geom_line(aes_string(x=plot.data_m$x, y=plot.data_m$y), color='#1065B1') +
     geom_ribbon(aes(x=plot.data_f$x, y=plot.data_f$y, ymin=plot.data_f$lci, ymax=plot.data_f$uci), alpha=0.25, fill='#B31529') +
     geom_line(aes_string(x=plot.data_f$x, y=plot.data_f$y), color='#B31529') +
-    geom_hline(yintercept=1, linetype=2) +
+    geom_hline(yintercept=1, linetype=2, color='grey50') +
     theme_bw() +
     scale_x_continuous(expand=c(0,0)) +
+    scale_y_continuous(expand=c(0,0)) +
+    coord_cartesian(xlim = c(0, 510), ylim = c(NA, min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE), 3))) +
     labs(x=c("Cumulative mean of moderate-vigorous LTPA\n(METs-min/day)"),y=labely) +
-    annotate("text", x=max(plot.data_m$x,na.rm=TRUE)*0.98, y=max(plot.data$uci,na.rm=TRUE), label=leg, vjust=1, hjust=1, size=4) +
+    annotate("text", x=510*0.98, y=min(max(plot.data$uci[plot.data$x<510], na.rm=TRUE)*0.98, 3*0.98), label=leg, vjust=1, hjust=1, size=4) +
     theme(axis.title.x = element_text(vjust=0.5, size=16, face="bold"), 
           axis.title.y = element_text(vjust=0.5, size=16, face="bold"),
           axis.text.x = element_text(size=16, colour = 'black'),
@@ -12903,12 +12909,12 @@ for(i in 1:length(vars01))
   figure
   dev.off()
   
-  tab_ok<-rbind(tab_ok,cbind(median_time,sample_orig,outliers,excl_basal,samplesize,
+  tab_ok<-rbind(tab_ok,cbind(median_time,sample_orig,excl_basal,samplesize,
                              nval_long_cont,coef_long_cont,pval_long_cont,pval_long_cont_ex,p_lrtest,
                              nval_long_q1,nval_long_q2,coef_long_qi,pval_long_qi,
                              min_val,min_coef,labelok,
                              p_int_sexo))
-  tab<-rbind(tab,cbind(median_time,sample_orig,outliers,excl_basal,samplesize,
+  tab<-rbind(tab,cbind(median_time,sample_orig,excl_basal,samplesize,
                        nval_long_cont,hr_long_cont,ic95a_long_cont,ic95b_long_cont,pval_long_cont,
                        pval_long_cont_ex,p_lrtest,
                        nval_long_q1,nval_long_q2,hr_long_qi,ic95a_long_qi,ic95b_long_qi,pval_long_qi,
@@ -12920,3 +12926,4 @@ for(i in 1:length(vars01))
   namefile<-paste("./Outputs2/",vars00[i],"/Survival/splineforestplot_",vars01[i],".csv",sep="")
   write.table(tab,file=namefile,sep=";",col.names=NA)
 }
+
