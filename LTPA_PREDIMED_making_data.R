@@ -244,7 +244,7 @@ dir.create("D:/Artículos/Eleonora - LTPA PREDIMED/Data")
 
 # This (below) is the database with all biomarkers
 
-load("D:/Artículos/Montse - MedDiet and lipid profile/Data/predimed_bbdd.RData")
+load("D:/Artículos/Accepted/Montse - MedDiet and lipid profile/Data/predimed_bbdd.RData")
 
 dat<-rename.vars(dat,
                  from=c("diabetes0","hipercol0","hta0","edad0","escolar01","hipertrigli01","kcal_total01",
@@ -275,10 +275,10 @@ dat<-rename.vars(dat,
                       "gluco00","gluco01","gluco02","gluco03","gluco04","gluco05","gluco06","gluco07","gluco08",
                       "hb1ac00","hb1ac01","hb1ac02","hb1ac03","hb1ac04","hb1ac05","hb1ac06","hb1ac07","hb1ac08",
                       "plat00","plat01","plat02","plat03","plat04","plat05","plat06","plat07","plat08",
-                      "f_hta00","f_hta01","f_hta02","f_hta03","f_hta04","f_hta05","f_hta06","f_hta07","f_hta08",
-                      "f_chol00","f_chol01","f_chol02","f_chol03","f_chol04","f_chol05","f_chol06","f_chol07","f_chol08",
-                      "f_tg00","f_tg01","f_tg02","f_tg03","f_tg04","f_tg05","f_tg06","f_tg07","f_tg08",
-                      "f_gluco00","f_gluco01","f_gluco02","f_gluco03","f_gluco04","f_gluco05","f_gluco06","f_gluco07","f_gluco08"))
+                      "f_hta_00","f_hta_01","f_hta_02","f_hta_03","f_hta_04","f_hta_05","f_hta_06","f_hta_07","f_hta_08",
+                      "f_chol_00","f_chol_01","f_chol_02","f_chol_03","f_chol_04","f_chol_05","f_chol_06","f_chol_07","f_chol_08",
+                      "f_tg_00","f_tg_01","f_tg_02","f_tg_03","f_tg_04","f_tg_05","f_tg_06","f_tg_07","f_tg_08",
+                      "f_gluco_00","f_gluco_01","f_gluco_02","f_gluco_03","f_gluco_04","f_gluco_05","f_gluco_06","f_gluco_07","f_gluco_08"))
 
 dat$ldlc_hdlc00<-dat$ldlc00/dat$hdlc00
 dat$ldlc_hdlc01<-dat$ldlc01/dat$hdlc01
@@ -289,6 +289,16 @@ dat$ldlc_hdlc05<-dat$ldlc05/dat$hdlc05
 dat$ldlc_hdlc06<-dat$ldlc06/dat$hdlc06
 dat$ldlc_hdlc07<-dat$ldlc07/dat$hdlc07
 dat$ldlc_hdlc08<-dat$ldlc08/dat$hdlc08
+
+dat$pp00<-dat$sbp00-dat$dbp00
+dat$pp01<-dat$sbp01-dat$dbp01
+dat$pp02<-dat$sbp02-dat$dbp02
+dat$pp03<-dat$sbp03-dat$dbp03
+dat$pp04<-dat$sbp04-dat$dbp04
+dat$pp05<-dat$sbp05-dat$dbp05
+dat$pp06<-dat$sbp06-dat$dbp06
+dat$pp07<-dat$sbp07-dat$dbp07
+dat$pp08<-dat$sbp08-dat$dbp08
 
 dat$whtr00<-dat$wc00/(dat$altura01*100)
 dat$whtr01<-dat$wc01/(dat$altura01*100)
@@ -344,6 +354,7 @@ temp<-dat[,c("id","nodo","grup_int","sexo","edad00","diabetes00","hipercol00","h
              "whtr00","whtr01","whtr02","whtr03","whtr04","whtr05","whtr06","whtr07","whtr08",
              "sbp00","sbp01","sbp02","sbp03","sbp04","sbp05","sbp06","sbp07","sbp08",
              "dbp00","dbp01","dbp02","dbp03","dbp04","dbp05","dbp06","dbp07","dbp08",
+             "pp00","pp01","pp02","pp03","pp04","pp05","pp06","pp07","pp08",
              "tc00","tc01","tc02","tc03","tc04","tc05","tc06","tc07","tc08",
              "hdlc00","hdlc01","hdlc02","hdlc03","hdlc04","hdlc05","hdlc06","hdlc07","hdlc08",
              "ldlc00","ldlc01","ldlc02","ldlc03","ldlc04","ldlc05","ldlc06","ldlc07","ldlc08",
@@ -354,14 +365,14 @@ temp<-dat[,c("id","nodo","grup_int","sexo","edad00","diabetes00","hipercol00","h
              "egfr00","egfr01","egfr02","egfr03","egfr04","egfr05","egfr06","egfr07","egfr08",
              "nlr00","nlr01","nlr02","nlr03","nlr04","nlr05","nlr06","nlr07","nlr08",
              "plat00","plat01","plat02","plat03","plat04","plat05","plat06","plat07","plat08",
-             "f_hta00","f_hta01","f_hta02","f_hta03","f_hta04","f_hta05","f_hta06","f_hta07","f_hta08",
-             "f_chol00","f_chol01","f_chol02","f_chol03","f_chol04","f_chol05","f_chol06","f_chol07","f_chol08",
-             "f_tg00","f_tg01","f_tg02","f_tg03","f_tg04","f_tg05","f_tg06","f_tg07","f_tg08",
-             "f_gluco00","f_gluco01","f_gluco02","f_gluco03","f_gluco04","f_gluco05","f_gluco06","f_gluco07","f_gluco08")]
+             "f_hta_00","f_hta_01","f_hta_02","f_hta_03","f_hta_04","f_hta_05","f_hta_06","f_hta_07","f_hta_08",
+             "f_chol_00","f_chol_01","f_chol_02","f_chol_03","f_chol_04","f_chol_05","f_chol_06","f_chol_07","f_chol_08",
+             "f_tg_00","f_tg_01","f_tg_02","f_tg_03","f_tg_04","f_tg_05","f_tg_06","f_tg_07","f_tg_08",
+             "f_gluco_00","f_gluco_01","f_gluco_02","f_gluco_03","f_gluco_04","f_gluco_05","f_gluco_06","f_gluco_07","f_gluco_08")]
 
 # This (below) is the database that has LTPA and follow-up times
 
-dat<-spss.get("D:/Artículos/Montse - MedDiet and lipid profile/Data/bbdd_predimed_20101201.sav",
+dat<-spss.get("D:/Artículos/Accepted/Montse - MedDiet and lipid profile/Data/bbdd_predimed_20101201.sav",
               use.value.labels=FALSE,to.data.frame=TRUE,allow="_")
 
 dat<-rename.vars(dat,
@@ -438,7 +449,7 @@ temp2<-dat[,c("id",
 
 # ADHERENCE TO MEDITERRANEAN DIET IN ALL STUDY VISITS
 
-p14<-spss.get("D:/Artículos/Montse - MedDiet and lipid profile/Data/pred_p14.sav",
+p14<-spss.get("D:/Artículos/Accepted/Montse - MedDiet and lipid profile/Data/pred_p14.sav",
               use.value.labels=FALSE,to.data.frame=TRUE,allow="_")
 
 p14<-rename.vars(p14,
@@ -485,12 +496,14 @@ vars00<-c("age00","age01","age02","age03","age04","age05","age06","age07","age08
           "age00","age01","age02","age03","age04","age05","age06","age07","age08",
           "age00","age01","age02","age03","age04","age05","age06","age07","age08",
           "age00","age01","age02","age03","age04","age05","age06","age07","age08",
+          "age00","age01","age02","age03","age04","age05","age06","age07","age08",
           "age00","age01","age02","age03","age04","age05","age06","age07","age08")
 vars01<-c("bmi00","bmi01","bmi02","bmi03","bmi04","bmi05","bmi06","bmi07","bmi08",
           "wc00","wc01","wc02","wc03","wc04","wc05","wc06","wc07","wc08",
           "whtr00","whtr01","whtr02","whtr03","whtr04","whtr05","whtr06","whtr07","whtr08",
           "sbp00","sbp01","sbp02","sbp03","sbp04","sbp05","sbp06","sbp07","sbp08",
           "dbp00","dbp01","dbp02","dbp03","dbp04","dbp05","dbp06","dbp07","dbp08",
+          "pp00","pp01","pp02","pp03","pp04","pp05","pp06","pp07","pp08",
           "tc00","tc01","tc02","tc03","tc04","tc05","tc06","tc07","tc08",
           "hdlc00","hdlc01","hdlc02","hdlc03","hdlc04","hdlc05","hdlc06","hdlc07","hdlc08",
           "ldlc00","ldlc01","ldlc02","ldlc03","ldlc04","ldlc05","ldlc06","ldlc07","ldlc08",
@@ -504,10 +517,10 @@ vars01<-c("bmi00","bmi01","bmi02","bmi03","bmi04","bmi05","bmi06","bmi07","bmi08
           "dmed00","dmed01","dmed02","dmed03","dmed04","dmed05","dmed06","dmed07","dmed08",
           "ltpa00","ltpa01","ltpa02","ltpa03","ltpa04","ltpa05","ltpa06","ltpa07","ltpa08",
           "mvltpa00","mvltpa01","mvltpa02","mvltpa03","mvltpa04","mvltpa05","mvltpa06","mvltpa07","mvltpa08",
-          "f_hta00","f_hta01","f_hta02","f_hta03","f_hta04","f_hta05","f_hta06","f_hta07","f_hta08",
-          "f_chol00","f_chol01","f_chol02","f_chol03","f_chol04","f_chol05","f_chol06","f_chol07","f_chol08",
-          "f_tg00","f_tg01","f_tg02","f_tg03","f_tg04","f_tg05","f_tg06","f_tg07","f_tg08",
-          "f_gluco00","f_gluco01","f_gluco02","f_gluco03","f_gluco04","f_gluco05","f_gluco06","f_gluco07","f_gluco08")
+          "f_hta_00","f_hta_01","f_hta_02","f_hta_03","f_hta_04","f_hta_05","f_hta_06","f_hta_07","f_hta_08",
+          "f_chol_00","f_chol_01","f_chol_02","f_chol_03","f_chol_04","f_chol_05","f_chol_06","f_chol_07","f_chol_08",
+          "f_tg_00","f_tg_01","f_tg_02","f_tg_03","f_tg_04","f_tg_05","f_tg_06","f_tg_07","f_tg_08",
+          "f_gluco_00","f_gluco_01","f_gluco_02","f_gluco_03","f_gluco_04","f_gluco_05","f_gluco_06","f_gluco_07","f_gluco_08")
 
 for(i in 1:length(vars01))
 {
@@ -556,30 +569,49 @@ dat[vars]<-lapply(dat[vars],function(x) as.factor(x))
 
 # Imputation of missing values in covariates (escolar00 and kcal00)
 
-library(missForest)
+library(Hmisc)
 dat_imp<-dat[,c("id","sexo","age00","grup_int","diabetes00","hipercol00",
                 "hipertg00","hta00","tobacco00","bmi00","ltpa00","mvltpa00","dmed00",
                 "escolar00","kcal00")]
-dat_imp$escolar00<-with(dat_imp,ifelse(escolar00==9,NA,escolar00))
-dat_imp$escolar00<-factor(dat_imp$escolar00,levels=c(1,2,3))
-length(which(is.na(dat_imp$escolar00)))/dim(dat_imp)[1]*100 #1.81% NAs in escolar00
-length(which(is.na(dat_imp$kcal00)))/dim(dat_imp)[1]*100 #1.05% NAs in kcal00
-length(which(is.na(dat_imp$dmed00)))/dim(dat_imp)[1]*100 #0.68% NAs in dmed00
+dat_imp$escolar00 <- factor(ifelse(dat_imp$escolar00 == 9, NA, dat_imp$escolar00), levels = 1:3)
+colMeans(is.na(dat_imp[, c("escolar00", "kcal00", "dmed00")])) * 100
+#escolar00    kcal00     dmed00 
+#1.8128105    1.0474016  0.6848395 
 
 set.seed(1988)
-imputed_data<-missForest(dat_imp) #Random forest imputation of NAs in variables in dat_imp
-dat_imp<-imputed_data$ximp
-dat_imp$escolar00<-factor(dat_imp$escolar00,levels=c(1,2,3))
-dat_imp$escolar00<-with(dat_imp,ifelse(escolar00==1,0,
-                                       ifelse(escolar00==2,1,
-                                              ifelse(escolar00==3,1,NA))))
-dat_imp<-dat_imp[,c("id","escolar00","kcal00","dmed00")]
-dat$escolar00<-NULL
-dat$kcal00<-NULL
-dat$dmed00<-NULL
-dat<-merge2(dat,dat_imp,by.id=c("id"),all.x=TRUE,sort=FALSE)
-dat_imp<-NULL
-imputed_data<-NULL
+imp <- aregImpute(
+  ~ sexo + age00 + grup_int + diabetes00 + hipercol00 +
+    hipertg00 + hta00 + tobacco00 + bmi00 +
+    ltpa00 + mvltpa00 +
+    dmed00 + escolar00 + kcal00,
+  data = dat_imp,
+  n.impute = 5)
+
+imp.list <- lapply(1:5, function(i)
+  impute.transcan(
+    imp,
+    imputation = i,
+    data = dat_imp,
+    list.out = TRUE,
+    pr = FALSE
+  )
+)
+
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+dat_imp$kcal00 <- Reduce("+", lapply(imp.list, `[[`, "kcal00")) / 5
+dat_imp$dmed00 <- Reduce("+", lapply(imp.list, `[[`, "dmed00")) / 5
+dat_imp$escolar00 <- apply(sapply(imp.list, `[[`, "escolar00"), 1, Mode)
+dat_imp$escolar00 <- ifelse(as.numeric(as.character(dat_imp$escolar00)) == 1, 0, 1)
+
+idx <- match(dat$id, dat_imp$id)
+dat$escolar00 <- dat_imp$escolar00[idx]
+dat$kcal00    <- dat_imp$kcal00[idx]
+dat$dmed00    <- dat_imp$dmed00[idx]
+rm(dat_imp, imp, imp.list, idx)
 
 
 # STUDY FLOWCHART
@@ -620,7 +652,7 @@ dat <- dat %>%
 dat <- dat %>%
   dplyr::mutate(plat_na = as.integer(rowSums(is.na(dplyr::pick(plat01:plat08))) == 8))
 dat <- dat %>%
-  dplyr::mutate(drugs_na = as.integer(rowSums(is.na(dplyr::pick(f_hta01:f_hta08))) == 8))
+  dplyr::mutate(drugs_na = as.integer(rowSums(is.na(dplyr::pick(f_hta_01:f_hta_08))) == 8))
 
 
 dat$bmi_ok<-with(dat,ifelse(!is.na(bmi00) & bmi_na==0,1,0))
@@ -633,7 +665,7 @@ dat$hb1ac_ok<-with(dat,ifelse(!is.na(hb1ac00) & hb1ac_na==0,1,0))
 dat$egfr_ok<-with(dat,ifelse(!is.na(egfr00) & egfr_na==0,1,0))
 dat$nlr_ok<-with(dat,ifelse(!is.na(nlr00) & nlr_na==0,1,0))
 dat$plat_ok<-with(dat,ifelse(!is.na(plat00) & plat_na==0,1,0))
-dat$drugs_ok<-with(dat,ifelse(!is.na(f_hta00) & drugs_na==0,1,0))
+dat$drugs_ok<-with(dat,ifelse(!is.na(f_hta_00) & drugs_na==0,1,0))
 
 
 dim(dat)[1] #5399
@@ -735,6 +767,16 @@ for(i in 1:length(vars01))
                                                  ifelse(dat[,vars01[i]]<140 & dat[,vars02[i]]<90,0,NA)))))
 }
 
+# High pulse pressure >=60 mmHg: https://pubmed.ncbi.nlm.nih.gov/29226693/
+
+vars01<-c("pp00","pp01","pp02","pp03","pp04","pp05","pp06","pp07","pp08")
+vars02<-c("pp_hi_00","pp_hi_01","pp_hi_02","pp_hi_03","pp_hi_04","pp_hi_05","pp_hi_06","pp_hi_07","pp_hi_08")
+
+for(i in 1:length(vars01))
+{
+  dat[,vars02[i]]<-with(dat,ifelse(dat[,vars01[i]]>=60,1,0))
+}
+
 vars01<-c("tg00","tg01","tg02","tg03","tg04","tg05","tg06","tg07","tg08")
 vars02<-c("tg_hi150_00","tg_hi150_01","tg_hi150_02","tg_hi150_03","tg_hi150_04","tg_hi150_05","tg_hi150_06","tg_hi150_07","tg_hi150_08")
 vars03<-c("tg_hi200_00","tg_hi200_01","tg_hi200_02","tg_hi200_03","tg_hi200_04","tg_hi200_05","tg_hi200_06","tg_hi200_07","tg_hi200_08")
@@ -745,14 +787,31 @@ for(i in 1:length(vars01))
   dat[,vars03[i]]<-with(dat,ifelse(dat[,vars01[i]]>=200,1,0))
 }
 
+# Elevated LDL-C: >=130 mg/dL is the most essential definition for high CV risk individuals (https://jamanetwork.com/journals/jama/article-abstract/193847)
+
 vars01<-c("ldlc00","ldlc01","ldlc02","ldlc03","ldlc04","ldlc05","ldlc06","ldlc07","ldlc08")
+vars02<-c("ldl_hi100_00","ldl_hi100_01","ldl_hi100_02","ldl_hi100_03","ldl_hi100_04","ldl_hi100_05","ldl_hi100_06","ldl_hi100_07","ldl_hi100_08")
 vars03<-c("ldl_hi130_00","ldl_hi130_01","ldl_hi130_02","ldl_hi130_03","ldl_hi130_04","ldl_hi130_05","ldl_hi130_06","ldl_hi130_07","ldl_hi130_08")
 vars04<-c("ldl_hi160_00","ldl_hi160_01","ldl_hi160_02","ldl_hi160_03","ldl_hi160_04","ldl_hi160_05","ldl_hi160_06","ldl_hi160_07","ldl_hi160_08")
 
 for(i in 1:length(vars01))
 {
+  dat[,vars02[i]]<-with(dat,ifelse(dat[,vars01[i]]>=100,1,0))
   dat[,vars03[i]]<-with(dat,ifelse(dat[,vars01[i]]>=130,1,0))
   dat[,vars04[i]]<-with(dat,ifelse(dat[,vars01[i]]>=160,1,0))
+}
+
+# High LDL-C/HDL-C: >=3 men, >=2.5 women (https://pmc.ncbi.nlm.nih.gov/articles/PMC2747394/)
+
+vars01<-c("ldlc_hdlc00","ldlc_hdlc01","ldlc_hdlc02","ldlc_hdlc03","ldlc_hdlc04","ldlc_hdlc05","ldlc_hdlc06","ldlc_hdlc07","ldlc_hdlc08")
+vars02<-c("ldl_hdl_hi_00","ldl_hdl_hi_01","ldl_hdl_hi_02","ldl_hdl_hi_03","ldl_hdl_hi_04","ldl_hdl_hi_05","ldl_hdl_hi_06","ldl_hdl_hi_07","ldl_hdl_hi_08")
+
+for(i in 1:length(vars01))
+{
+  dat[,vars02[i]]<-with(dat,ifelse(dat[,vars01[i]]>=3 & sexo==0,1,
+                                   ifelse(dat[,vars01[i]]<3 & sexo==0,0,
+                                          ifelse(dat[,vars01[i]]>=2.5 & sexo==1,1,
+                                                 ifelse(dat[,vars01[i]]<2.5 & sexo==1,0,NA)))))
 }
 
 vars01<-c("hdlc00","hdlc01","hdlc02","hdlc03","hdlc04","hdlc05","hdlc06","hdlc07","hdlc08")
@@ -766,12 +825,18 @@ for(i in 1:length(vars01))
                                                  ifelse(dat[,vars01[i]]>=50 & sexo==1,0,NA)))))
 }
 
+# Impaired fasting glucose is >= 100 mg/dL (https://diabetesjournals.org/care/article/49/Supplement_1/S27/163926/2-Diagnosis-and-Classification-of-Diabetes)
+
 vars01<-c("gluco00","gluco01","gluco02","gluco03","gluco04","gluco05","gluco06","gluco07","gluco08")
-vars02<-c("gluco_hi126_00","gluco_hi126_01","gluco_hi126_02","gluco_hi126_03","gluco_hi126_04","gluco_hi126_05","gluco_hi126_06","gluco_hi126_07","gluco_hi126_08")
+vars02<-c("gluco_hi100_00","gluco_hi100_01","gluco_hi100_02","gluco_hi100_03","gluco_hi100_04","gluco_hi100_05","gluco_hi100_06","gluco_hi100_07","gluco_hi100_08")
+vars03<-c("gluco_hi110_00","gluco_hi110_01","gluco_hi110_02","gluco_hi110_03","gluco_hi110_04","gluco_hi110_05","gluco_hi110_06","gluco_hi110_07","gluco_hi110_08")
+vars04<-c("gluco_hi126_00","gluco_hi126_01","gluco_hi126_02","gluco_hi126_03","gluco_hi126_04","gluco_hi126_05","gluco_hi126_06","gluco_hi126_07","gluco_hi126_08")
 
 for(i in 1:length(vars01))
 {
-  dat[,vars02[i]]<-with(dat,ifelse(dat[,vars01[i]]>=126,1,0))
+  dat[,vars02[i]]<-with(dat,ifelse(dat[,vars01[i]]>=100,1,0))
+  dat[,vars03[i]]<-with(dat,ifelse(dat[,vars01[i]]>=110,1,0))
+  dat[,vars04[i]]<-with(dat,ifelse(dat[,vars01[i]]>=126,1,0))
 }
 
 # Hb1Ac: >=6.5 as criterion for T2DM https://pubmed.ncbi.nlm.nih.gov/39651986/
@@ -837,21 +902,36 @@ dat$c_adip_any<-as.integer(apply(dat[,grep("c_adip_0", names(dat))], 1, function
 dat$bp_hi_inicio<-dat$bp_hi_00
 dat$bp_hi_seg<-rowSums(!is.na(dat[,grep("bp_hi_0", names(dat))]))
 dat$bp_hi_any<-as.integer(apply(dat[,grep("bp_hi_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$pp_hi_inicio<-dat$pp_hi_00
+dat$pp_hi_seg<-rowSums(!is.na(dat[,grep("pp_hi_0", names(dat))]))
+dat$pp_hi_any<-as.integer(apply(dat[,grep("pp_hi_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 dat$tg_hi150_inicio<-dat$tg_hi150_00
 dat$tg_hi150_seg<-rowSums(!is.na(dat[,grep("tg_hi150_0", names(dat))]))
 dat$tg_hi150_any<-as.integer(apply(dat[,grep("tg_hi150_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 dat$tg_hi200_inicio<-dat$tg_hi200_00
 dat$tg_hi200_seg<-rowSums(!is.na(dat[,grep("tg_hi200_0", names(dat))]))
 dat$tg_hi200_any<-as.integer(apply(dat[,grep("tg_hi200_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$ldl_hi100_inicio<-dat$ldl_hi100_00
+dat$ldl_hi100_seg<-rowSums(!is.na(dat[,grep("ldl_hi100_0", names(dat))]))
+dat$ldl_hi100_any<-as.integer(apply(dat[,grep("ldl_hi100_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 dat$ldl_hi130_inicio<-dat$ldl_hi130_00
 dat$ldl_hi130_seg<-rowSums(!is.na(dat[,grep("ldl_hi130_0", names(dat))]))
 dat$ldl_hi130_any<-as.integer(apply(dat[,grep("ldl_hi130_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 dat$ldl_hi160_inicio<-dat$ldl_hi160_00
 dat$ldl_hi160_seg<-rowSums(!is.na(dat[,grep("ldl_hi160_0", names(dat))]))
 dat$ldl_hi160_any<-as.integer(apply(dat[,grep("ldl_hi160_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$ldl_hdl_hi_inicio<-dat$ldl_hdl_hi_00
+dat$ldl_hdl_hi_seg<-rowSums(!is.na(dat[,grep("ldl_hdl_hi_0", names(dat))]))
+dat$ldl_hdl_hi_any<-as.integer(apply(dat[,grep("ldl_hdl_hi_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 dat$hdl_lo_inicio<-dat$hdl_lo_00
 dat$hdl_lo_seg<-rowSums(!is.na(dat[,grep("hdl_lo_0", names(dat))]))
 dat$hdl_lo_any<-as.integer(apply(dat[,grep("hdl_lo_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$gluco_hi100_inicio<-dat$gluco_hi100_00
+dat$gluco_hi100_seg<-rowSums(!is.na(dat[,grep("gluco_hi100_0", names(dat))]))
+dat$gluco_hi100_any<-as.integer(apply(dat[,grep("gluco_hi100_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$gluco_hi110_inicio<-dat$gluco_hi110_00
+dat$gluco_hi110_seg<-rowSums(!is.na(dat[,grep("gluco_hi110_0", names(dat))]))
+dat$gluco_hi110_any<-as.integer(apply(dat[,grep("gluco_hi110_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 dat$gluco_hi126_inicio<-dat$gluco_hi126_00
 dat$gluco_hi126_seg<-rowSums(!is.na(dat[,grep("gluco_hi126_0", names(dat))]))
 dat$gluco_hi126_any<-as.integer(apply(dat[,grep("gluco_hi126_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
@@ -871,103 +951,94 @@ dat$plat_hi_inicio<-dat$plat_hi_00
 dat$plat_hi_seg<-rowSums(!is.na(dat[,grep("plat_hi_0", names(dat))]))
 dat$plat_hi_any<-as.integer(apply(dat[,grep("plat_hi_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 
-dat$f_hta_inicio<-dat$f_hta00
-dat$f_hta_seg<-rowSums(!is.na(dat[,grep("f_hta0", names(dat))]))
-dat$f_hta_any<-as.integer(apply(dat[,grep("f_hta0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
-dat$f_chol_inicio<-dat$f_chol00
-dat$f_chol_seg<-rowSums(!is.na(dat[,grep("f_chol0", names(dat))]))
-dat$f_chol_any<-as.integer(apply(dat[,grep("f_chol0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
-dat$f_tg_inicio<-dat$f_tg00
-dat$f_tg_seg<-rowSums(!is.na(dat[,grep("f_tg0", names(dat))]))
-dat$f_tg_any<-as.integer(apply(dat[,grep("f_tg0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
-dat$f_gluco_inicio<-dat$f_gluco00
-dat$f_gluco_seg<-rowSums(!is.na(dat[,grep("f_gluco0", names(dat))]))
-dat$f_gluco_any<-as.integer(apply(dat[,grep("f_gluco0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
-
-x<-dat[,c("id","obesity_00","obesity_01","obesity_02","obesity_03","obesity_04","obesity_05","obesity_06","obesity_07","obesity_08")]
-write.table(x,"./Data/obesity.csv",
-            sep=";",col.names=TRUE,row.names=FALSE)
-x<-dat[,c("id","c_adip_00","c_adip_01","c_adip_02","c_adip_03","c_adip_04","c_adip_05","c_adip_06","c_adip_07","c_adip_08")]
-write.table(x,"./Data/c_adip.csv",
-            sep=";",col.names=TRUE,row.names=FALSE)
-x<-dat[,c("id","hb1ac_hi_00","hb1ac_hi_01","hb1ac_hi_02","hb1ac_hi_03","hb1ac_hi_04","hb1ac_hi_05","hb1ac_hi_06","hb1ac_hi_07","hb1ac_hi_08")]
-write.table(x,"./Data/hb1ac_hi.csv",
-            sep=";",col.names=TRUE,row.names=FALSE)
-x<-dat[,c("id","ckd_00","ckd_01","ckd_02","ckd_03","ckd_04","ckd_05","ckd_06","ckd_07","ckd_08")]
-write.table(x,"./Data/ckd.csv",
-            sep=";",col.names=TRUE,row.names=FALSE)
-x<-dat[,c("id","nlr_hi_00","nlr_hi_01","nlr_hi_02","nlr_hi_03","nlr_hi_04","nlr_hi_05","nlr_hi_06","nlr_hi_07","nlr_hi_08")]
-write.table(x,"./Data/nlr_hi.csv",
-            sep=";",col.names=TRUE,row.names=FALSE)
-x<-dat[,c("id","plat_lo_00","plat_lo_01","plat_lo_02","plat_lo_03","plat_lo_04","plat_lo_05","plat_lo_06","plat_lo_07","plat_lo_08")]
-write.table(x,"./Data/plat_lo.csv",
-            sep=";",col.names=TRUE,row.names=FALSE)
-x<-dat[,c("id","plat_hi_00","plat_hi_01","plat_hi_02","plat_hi_03","plat_hi_04","plat_hi_05","plat_hi_06","plat_hi_07","plat_hi_08")]
-write.table(x,"./Data/plat_hi.csv",
-            sep=";",col.names=TRUE,row.names=FALSE)
+dat$f_hta_inicio<-dat$f_hta_00
+dat$f_hta_seg<-rowSums(!is.na(dat[,grep("f_hta_0", names(dat))]))
+dat$f_hta_any<-as.integer(apply(dat[,grep("f_hta_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$f_chol_inicio<-dat$f_chol_00
+dat$f_chol_seg<-rowSums(!is.na(dat[,grep("f_chol_0", names(dat))]))
+dat$f_chol_any<-as.integer(apply(dat[,grep("f_chol_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$f_tg_inicio<-dat$f_tg_00
+dat$f_tg_seg<-rowSums(!is.na(dat[,grep("f_tg_0", names(dat))]))
+dat$f_tg_any<-as.integer(apply(dat[,grep("f_tg_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
+dat$f_gluco_inicio<-dat$f_gluco_00
+dat$f_gluco_seg<-rowSums(!is.na(dat[,grep("f_gluco_0", names(dat))]))
+dat$f_gluco_any<-as.integer(apply(dat[,grep("f_gluco_0", names(dat))], 1, function(x) any(x == 1, na.rm = TRUE)))
 
 
-obesity<-read.csv2("./Data/obesity_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,obesity,by.id=c("id"),all.x=TRUE,sort=FALSE)
-obesity<-NULL
-adobesity<-read.csv2("./Data/adobesity_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,adobesity,by.id=c("id"),all.x=TRUE,sort=FALSE)
-adobesity<-NULL
-c_adip<-read.csv2("./Data/c_adip_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,c_adip,by.id=c("id"),all.x=TRUE,sort=FALSE)
-obesity<-NULL
-bp_hi<-read.csv2("./Data/bp_hi_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,bp_hi,by.id=c("id"),all.x=TRUE,sort=FALSE)
-bp_hi<-NULL
-f_hta<-read.csv2("./Data/f_hta_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,f_hta,by.id=c("id"),all.x=TRUE,sort=FALSE)
-f_hta<-NULL
-ldl_hi130<-read.csv2("./Data/ldl_hi130_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,ldl_hi130,by.id=c("id"),all.x=TRUE,sort=FALSE)
-ldl_hi130<-NULL
-ldl_hi160<-read.csv2("./Data/ldl_hi160_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,ldl_hi160,by.id=c("id"),all.x=TRUE,sort=FALSE)
-ldl_hi160<-NULL
-hdl_lo<-read.csv2("./Data/hdl_lo_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,hdl_lo,by.id=c("id"),all.x=TRUE,sort=FALSE)
-hdl_lo<-NULL
-f_chol<-read.csv2("./Data/f_chol_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,f_chol,by.id=c("id"),all.x=TRUE,sort=FALSE)
-f_chol<-NULL
-tg_hi150<-read.csv2("./Data/tg_hi150_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,tg_hi150,by.id=c("id"),all.x=TRUE,sort=FALSE)
-tg_hi150<-NULL
-tg_hi200<-read.csv2("./Data/tg_hi200_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,tg_hi200,by.id=c("id"),all.x=TRUE,sort=FALSE)
-tg_hi200<-NULL
-f_tg<-read.csv2("./Data/f_tg_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,f_tg,by.id=c("id"),all.x=TRUE,sort=FALSE)
-f_tg<-NULL
-gluco_hi126<-read.csv2("./Data/gluco_hi126_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,gluco_hi126,by.id=c("id"),all.x=TRUE,sort=FALSE)
-gluco_hi126<-NULL
-hb1ac_hi<-read.csv2("./Data/hb1ac_hi_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,hb1ac_hi,by.id=c("id"),all.x=TRUE,sort=FALSE)
-hb1ac_hi<-NULL
-f_gluco<-read.csv2("./Data/f_gluco_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,f_gluco,by.id=c("id"),all.x=TRUE,sort=FALSE)
-f_gluco<-NULL
+# Definir función "crear_debut"
+
+crear_debut <- function(data, condicion, nueva_variable = paste0(condicion, "_d")) {
+  patron <- paste0("^", condicion, "_[0-9]{2}$")
+  variables <- grep(
+    patron,
+    names(data),
+    value = TRUE)
+  
+  if (length(variables) == 0) {
+    stop("No se han encontrado variables con el patrón ",condicion, "_00, ", condicion, "_01, etc.")}
+  
+  seguimientos <- as.integer(sub(paste0("^", condicion, "_"),"",variables))
+  
+  orden <- order(seguimientos)
+  variables <- variables[orden]
+  seguimientos <- seguimientos[orden]
+  
+  if (!0 %in% seguimientos) {
+    stop("No se ha encontrado la variable basal ",condicion, "_00.")}
+  
+  posicion_basal <- which(seguimientos == 0)
+  
+  data[[nueva_variable]] <- apply(
+    data[, variables, drop = FALSE],1,
+    function(x) {
+      if (is.na(x[posicion_basal]) || x[posicion_basal] != 0) {
+        return(NA_integer_)}
+      
+      posiciones_debut <- which(x == 1 & seguimientos > 0)
+      
+      if (length(posiciones_debut) == 0) {return(NA_integer_)}
+      
+      seguimientos[posiciones_debut[1]]})
+  data
+}
+
+dat <- crear_debut(dat, "obesity")
+dat <- crear_debut(dat, "adobesity")
+dat <- crear_debut(dat, "c_adip")
+dat <- crear_debut(dat, "bp_hi")
+dat <- crear_debut(dat, "pp_hi")
+dat <- crear_debut(dat, "f_hta")
+dat <- crear_debut(dat, "ldl_hi100")
+dat <- crear_debut(dat, "ldl_hi130")
+dat <- crear_debut(dat, "ldl_hi160")
+dat <- crear_debut(dat, "ldl_hdl_hi")
+dat <- crear_debut(dat, "hdl_lo")
+dat <- crear_debut(dat, "tg_hi150")
+dat <- crear_debut(dat, "tg_hi200")
+dat <- crear_debut(dat, "f_chol")
+dat <- crear_debut(dat, "f_tg")
+dat <- crear_debut(dat, "gluco_hi100")
+dat <- crear_debut(dat, "gluco_hi110")
+dat <- crear_debut(dat, "gluco_hi126")
+dat <- crear_debut(dat, "hb1ac_hi")
+dat <- crear_debut(dat, "f_gluco")
+dat <- crear_debut(dat, "nlr_hi")
+dat <- crear_debut(dat, "plat_hi")
+dat <- crear_debut(dat, "plat_lo")
+
+
+# Debut clasico de CKD 
+
+x<-with(dat,cbind(id,ckd_00,ckd_01,ckd_02,ckd_03,ckd_04,ckd_05,ckd_06,ckd_07,ckd_08))
+write.table(x,"./Data/ckd.csv",sep=";")
 ckd<-read.csv2("./Data/ckd_revisado.csv",header=TRUE,sep=";",dec=".")
 dat<-merge2(dat,ckd,by.id=c("id"),all.x=TRUE,sort=FALSE)
 ckd<-NULL
-nlr_hi<-read.csv2("./Data/nlr_hi_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,nlr_hi,by.id=c("id"),all.x=TRUE,sort=FALSE)
-nlr_hi<-NULL
-plat_lo<-read.csv2("./Data/plat_lo_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,plat_lo,by.id=c("id"),all.x=TRUE,sort=FALSE)
-plat_lo<-NULL
-plat_hi<-read.csv2("./Data/plat_hi_revisado.csv",header=TRUE,sep=";",dec=".")
-dat<-merge2(dat,plat_hi,by.id=c("id"),all.x=TRUE,sort=FALSE)
-plat_hi<-NULL
+x<-NULL
 
 
-vars01<-c("obesity_d","adobesity_d","c_adip_d","bp_hi_d","f_hta_d","ldl_hi130_d","ldl_hi160_d","hdl_lo_d","f_chol_d",
-          "tg_hi150_d","tg_hi200_d","f_tg_d","gluco_hi126_d","hb1ac_hi_d","f_gluco_d","ckd_d","nlr_hi_d","plat_lo_d","plat_hi_d")
+vars01<-c("obesity_d","adobesity_d","c_adip_d","bp_hi_d","pp_hi_d","f_hta_d","ldl_hi100_d","ldl_hi130_d","ldl_hi160_d","ldl_hdl_hi_d","hdl_lo_d","f_chol_d",
+          "tg_hi150_d","tg_hi200_d","f_tg_d","gluco_hi100_d","gluco_hi110_d","gluco_hi126_d","hb1ac_hi_d","f_gluco_d","ckd_d","nlr_hi_d","plat_lo_d","plat_hi_d")
 
 for(i in 1:length(vars01))
   
@@ -1025,14 +1096,14 @@ dat$okseg08_left<-with(dat,ifelse((okseg08==1 & okseg07==1),7,
 vars01<-c("f_ultcontact","f_ultcontact_bmi","f_ultcontact_wc","f_ultcontact_sbp","f_ultcontact_dbp",
           "f_ultcontact_ldlc","f_ultcontact_hdlc","f_ultcontact_tg","f_ultcontact_gluco","f_ultcontact_hb1ac",
           "f_ultcontact_egfr","f_ultcontact_nlr","f_ultcontact_plat","f_ultcontact_drugs","f_ultcontact_lipids")
-vars02<-c("seg08","bmi08","wc08","sbp08","dbp08","ldlc08","hdlc08","tg08","gluco08","hb1ac08","egfr08","nlr08","plat08","f_hta08","ldlc_hdlc08")
-vars03<-c("seg07","bmi07","wc07","sbp07","dbp07","ldlc07","hdlc07","tg07","gluco07","hb1ac07","egfr07","nlr07","plat07","f_hta07","ldlc_hdlc07")
-vars04<-c("seg06","bmi06","wc06","sbp06","dbp06","ldlc06","hdlc06","tg06","gluco06","hb1ac06","egfr06","nlr06","plat06","f_hta06","ldlc_hdlc06")
-vars05<-c("seg05","bmi05","wc05","sbp05","dbp05","ldlc05","hdlc05","tg05","gluco05","hb1ac05","egfr05","nlr05","plat05","f_hta05","ldlc_hdlc05")
-vars06<-c("seg04","bmi04","wc04","sbp04","dbp04","ldlc04","hdlc04","tg04","gluco04","hb1ac04","egfr04","nlr04","plat04","f_hta04","ldlc_hdlc04")
-vars07<-c("seg03","bmi03","wc03","sbp03","dbp03","ldlc03","hdlc03","tg03","gluco03","hb1ac03","egfr03","nlr03","plat03","f_hta03","ldlc_hdlc03")
-vars08<-c("seg02","bmi02","wc02","sbp02","dbp02","ldlc02","hdlc02","tg02","gluco02","hb1ac02","egfr02","nlr02","plat02","f_hta02","ldlc_hdlc02")
-vars09<-c("seg01","bmi01","wc01","sbp01","dbp01","ldlc01","hdlc01","tg01","gluco01","hb1ac01","egfr01","nlr01","plat01","f_hta01","ldlc_hdlc01")
+vars02<-c("seg08","bmi08","wc08","sbp08","dbp08","ldlc08","hdlc08","tg08","gluco08","hb1ac08","egfr08","nlr08","plat08","f_hta_08","ldlc_hdlc08")
+vars03<-c("seg07","bmi07","wc07","sbp07","dbp07","ldlc07","hdlc07","tg07","gluco07","hb1ac07","egfr07","nlr07","plat07","f_hta_07","ldlc_hdlc07")
+vars04<-c("seg06","bmi06","wc06","sbp06","dbp06","ldlc06","hdlc06","tg06","gluco06","hb1ac06","egfr06","nlr06","plat06","f_hta_06","ldlc_hdlc06")
+vars05<-c("seg05","bmi05","wc05","sbp05","dbp05","ldlc05","hdlc05","tg05","gluco05","hb1ac05","egfr05","nlr05","plat05","f_hta_05","ldlc_hdlc05")
+vars06<-c("seg04","bmi04","wc04","sbp04","dbp04","ldlc04","hdlc04","tg04","gluco04","hb1ac04","egfr04","nlr04","plat04","f_hta_04","ldlc_hdlc04")
+vars07<-c("seg03","bmi03","wc03","sbp03","dbp03","ldlc03","hdlc03","tg03","gluco03","hb1ac03","egfr03","nlr03","plat03","f_hta_03","ldlc_hdlc03")
+vars08<-c("seg02","bmi02","wc02","sbp02","dbp02","ldlc02","hdlc02","tg02","gluco02","hb1ac02","egfr02","nlr02","plat02","f_hta_02","ldlc_hdlc02")
+vars09<-c("seg01","bmi01","wc01","sbp01","dbp01","ldlc01","hdlc01","tg01","gluco01","hb1ac01","egfr01","nlr01","plat01","f_hta_01","ldlc_hdlc01")
 date_cols<-c("seg08","seg07","seg06","seg05","seg04","seg03","seg02","seg01")
 
 for (i in seq_along(vars01)) {
@@ -1051,18 +1122,18 @@ for (i in seq_along(vars01)) {
 }
 
 
-vars01<-c("obesity_d","adobesity_d","c_adip_d","bp_hi_d","f_hta_d",
-          "ldl_hi130_d","ldl_hi160_d","hdl_lo_d","f_chol_d",
-          "tg_hi150_d","tg_hi200_d","f_tg_d","gluco_hi126_d","hb1ac_hi_d","f_gluco_d",
+vars01<-c("obesity_d","adobesity_d","c_adip_d","bp_hi_d","pp_hi_d","f_hta_d",
+          "ldl_hi100_d","ldl_hi130_d","ldl_hi160_d","ldl_hdl_hi_d","hdl_lo_d","f_chol_d",
+          "tg_hi150_d","tg_hi200_d","f_tg_d","gluco_hi100_d","gluco_hi110_d","gluco_hi126_d","hb1ac_hi_d","f_gluco_d",
           "ckd_d","nlr_hi_d","plat_lo_d","plat_hi_d")
 vars02<-NULL
 vars03<-NULL
 vars04<-NULL
 vars05<-NULL
 vars06<-NULL
-vars07<-c("f_ultcontact_bmi","f_ultcontact_wc","f_ultcontact_wc","f_ultcontact_sbp","f_ultcontact_drugs",
-          "f_ultcontact_ldlc","f_ultcontact_ldlc","f_ultcontact_hdlc","f_ultcontact_drugs",
-          "f_ultcontact_tg","f_ultcontact_tg","f_ultcontact_drugs","f_ultcontact_gluco","f_ultcontact_hb1ac","f_ultcontact_drugs",
+vars07<-c("f_ultcontact_bmi","f_ultcontact_wc","f_ultcontact_wc","f_ultcontact_sbp","f_ultcontact_sbp","f_ultcontact_drugs",
+          "f_ultcontact_ldlc","f_ultcontact_ldlc","f_ultcontact_ldlc","f_ultcontact_lipids","f_ultcontact_hdlc","f_ultcontact_drugs",
+          "f_ultcontact_tg","f_ultcontact_tg","f_ultcontact_drugs","f_ultcontact_gluco","f_ultcontact_gluco","f_ultcontact_gluco","f_ultcontact_hb1ac","f_ultcontact_drugs",
           "f_ultcontact_egfr","f_ultcontact_nlr","f_ultcontact_plat","f_ultcontact_plat")
 
 for(i in 1:length(vars01))
@@ -1169,6 +1240,7 @@ dat$wc_basal<-dat$wc00
 dat$whtr_basal<-dat$whtr00
 dat$sbp_basal<-dat$sbp00
 dat$dbp_basal<-dat$dbp00
+dat$pp_basal<-dat$pp00
 dat$tc_basal<-dat$tc00
 dat$hdlc_basal<-dat$hdlc00
 dat$ldlc_basal<-dat$ldlc00
@@ -1179,7 +1251,6 @@ dat$hb1ac_basal<-dat$hb1ac00
 dat$egfr_basal<-dat$egfr00
 dat$nlr_basal<-dat$nlr00
 dat$plat_basal<-dat$plat00
-dat$ldl_hdl_hi3_00<-with(dat,ifelse(ldlc_hdlc00>=3,1,0))
 dat$plat_median00<-with(dat,ifelse(sexo==1 & plat00>=median(dat[dat$sexo==1,c("plat00")],na.rm=TRUE),1,
                                    ifelse(sexo==1 & plat00<median(dat[dat$sexo==1,c("plat00")],na.rm=TRUE),0,
                                           ifelse(sexo==0 & plat00>=median(dat[dat$sexo==0,c("plat00")],na.rm=TRUE),1,
@@ -1188,9 +1259,9 @@ dat$plat_median00<-with(dat,ifelse(sexo==1 & plat00>=median(dat[dat$sexo==1,c("p
 
 bmi_vars<-c("id","sexo","nodo","escolar00","grup_int","grup_int2","idcluster2","prop_score01","prop_score02","excl",
             "mvltpalong","mvltpa_cat2","mvltpa_cat4",
-            "diabetes00","hipercol00","hipertg00","hta00","obesity00","obesity200","adobesity00","c_adip00","bmi_basal2",
-            "ldl_hi130_00","ldl_hdl_hi3_00","hdl_lo_00","ckd_00","nlr_hi_00","plat_median00",
-            "f_chol00","f_tg00","f_gluco00","f_hta00","tobacco00","tobacco200","bmi_basal2","dmed00","dmedlong","kcal00","covar",
+            "diabetes00","hipercol00","hipertg00","hta00","obesity00","obesity200","adobesity00","c_adip00","bmi_basal2","pp_hi_00",
+            "ldl_hi130_00","ldl_hdl_hi_00","hdl_lo_00","gluco_hi100_00","gluco_hi110_00","gluco_hi126_00","ckd_00","nlr_hi_00","plat_median00",
+            "f_chol_00","f_tg_00","f_gluco_00","f_hta_00","tobacco00","tobacco200","bmi_basal2","dmed00","dmedlong","kcal00","covar",
             "bmi_ok","wc_ok","sbp_ok","dbp_ok","lipids_ok","gluco_ok","hb1ac_ok","egfr_ok","nlr_ok","plat_ok",
             "bmi_basal","wc_basal","whtr_basal","sbp_basal","dbp_basal","tc_basal","hdlc_basal","ldlc_basal","ldlc_hdlc_basal","tg_basal",
             "gluco_basal","hb1ac_basal","egfr_basal","nlr_basal","plat_basal",
@@ -1236,6 +1307,15 @@ dbp_wide<-dat[,dbp_vars]
 dbp_long<-reshape(dbp_wide, 
                   varying = c("dbp00","dbp01","dbp02","dbp03","dbp04","dbp05","dbp06","dbp07","dbp08"), 
                   v.names = "dbp",
+                  timevar = "seg", 
+                  times = c("0","1","2","3","4","5","6","7","8"), 
+                  direction = "long")
+
+pp_vars<-c("id","pp00","pp01","pp02","pp03","pp04","pp05","pp06","pp07","pp08")
+pp_wide<-dat[,pp_vars]
+pp_long<-reshape(pp_wide, 
+                  varying = c("pp00","pp01","pp02","pp03","pp04","pp05","pp06","pp07","pp08"), 
+                  v.names = "pp",
                   timevar = "seg", 
                   times = c("0","1","2","3","4","5","6","7","8"), 
                   direction = "long")
@@ -1339,18 +1419,18 @@ age_long<-reshape(age_wide,
                   times = c("0","1","2","3","4","5","6","7","8"), 
                   direction = "long")
 
-dat_long<-as.data.frame(cbind(bmi_long,wc_long[,3],whtr_long[,3],sbp_long[,3],dbp_long[,3],tc_long[,3],hdlc_long[,3],
+dat_long<-as.data.frame(cbind(bmi_long,wc_long[,3],whtr_long[,3],sbp_long[,3],dbp_long[,3],pp_long[,3],tc_long[,3],hdlc_long[,3],
                               ldlc_long[,3],ldlc_hdlc_long[,3],tg_long[,3],gluco_long[,3],hb1ac_long[,3],
                               egfr_long[,3],nlr_long[,3],plat_long[,3],age_long[,3]))
 colnames(dat_long)<-c("id","sexo","nodo","escolar00","grup_int","grup_int2","idcluster2","prop_score01","prop_score02","excl",
                       "mvltpalong","mvltpa_cat2","mvltpa_cat4",
-                      "diabetes00","hipercol00","hipertg00","hta00","obesity00","obesity200","adobesity00","c_adip00","bmi00",
-                      "ldl_hi130_00","ldl_hdl_hi3_00","hdl_lo_00","ckd_00","nlr_hi_00","plat_median00",
-                      "f_chol00","f_tg00","f_gluco00","f_hta00","tobacco00","tobacco200","bmi_basal2","dmed00","dmedlong","kcal00","covar",
+                      "diabetes00","hipercol00","hipertg00","hta00","obesity00","obesity200","adobesity00","c_adip00","bmi00","pp_hi_00",
+                      "ldl_hi130_00","ldl_hdl_hi_00","hdl_lo_00","gluco_hi100_00","gluco_hi110_00","gluco_hi126_00","ckd_00","nlr_hi_00","plat_median00",
+                      "f_chol_00","f_tg_00","f_gluco_00","f_hta_00","tobacco00","tobacco200","bmi_basal2","dmed00","dmedlong","kcal00","covar",
                       "bmi_ok","wc_ok","sbp_ok","dbp_ok","lipids_ok","gluco_ok","hb1ac_ok","egfr_ok","nlr_ok","plat_ok",
                       "bmi_basal","wc_basal","whtr_basal","sbp_basal","dbp_basal","tc_basal","hdlc_basal","ldlc_basal","ldlc_hdlc_basal","tg_basal",
                       "gluco_basal","hb1ac_basal","egfr_basal","nlr_basal","plat_basal",
-                      "seg","bmi","wc","whtr","sbp","dbp","tc","hdlc","ldlc","ldlc_hdlc","tg","gluco","hb1ac","egfr","nlr","plat","age")
+                      "seg","bmi","wc","whtr","sbp","dbp","pp","tc","hdlc","ldlc","ldlc_hdlc","tg","gluco","hb1ac","egfr","nlr","plat","age")
 dat_long <- dat_long %>% arrange(id, as.numeric(seg))
 dat_long[c("mvltpa_cat2","mvltpa_cat4")]<-lapply(dat_long[c("mvltpa_cat2","mvltpa_cat4")],function(x) as.factor(x))
 
